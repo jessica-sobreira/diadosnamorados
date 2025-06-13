@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Namoro Surpresa!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f44336; 
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+ 
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); 
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative; 
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 30px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            border: 5px solid #fff;
+            transition: transform 0.5s ease-in-out; 
+        }
+
+        .botoes {
+            display: flex;
+            gap: 20px;
+            justify-content: center; 
+            margin-top: 30px;
+
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out; 
+            flex-shrink: 0;
+        }
+
+        #simBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #naoBtn {
+            background-color: #f44336; 
+            color: white;
+            position: absolute; 
+            transition: left 0.2s ease-out, top 0.2s ease-out; 
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        #mensagemFinal {
+            margin-top: 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px black;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lucas, quer namorar comigo?</h1>
+        <img src="eueLucas.jpeg" alt="Minha Foto">
+        <div class="botoes">
+            <button id="simBtn">Sim!</button>
+            <button id="naoBtn">Não...</button>
+        </div>
+        <div id="mensagemFinal"></div>
+    </div>
+
+    <script>
+        const naoBtn = document.getElementById('naoBtn');
+        const simBtn = document.getElementById('simBtn');
+        const mensagemFinalDiv = document.getElementById('mensagemFinal');
+        const container = document.querySelector('.container');
+
+        function setInitialNaoBtnPosition() {
+            const simBtnRect = simBtn.getBoundingClientRect();
+            const naoBtnRect = naoBtn.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+
+            const containerCenterX = containerRect.width / 2;
+
+            const totalWidth = simBtnRect.width + naoBtnRect.width + 20; // 20px de gap
+
+            const simLeft = containerCenterX - totalWidth / 2;
+            const naoLeft = simLeft + simBtnRect.width + 20;
+
+            naoBtn.style.position = 'absolute';
+            naoBtn.style.left = naoLeft + 'px';
+
+            naoBtn.style.top = simBtn.offsetTop + 'px'; 
+            
+        }
+
+        window.addEventListener('load', setInitialNaoBtnPosition);
+
+        window.addEventListener('resize', setInitialNaoBtnPosition);
+
+
+        naoBtn.addEventListener('mouseenter', function() {
+
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = this.getBoundingClientRect(); 
+
+            const maxX = containerRect.width - btnRect.width - 20;
+            const maxY = containerRect.height - btnRect.height - 20;
+
+
+            const newX = Math.max(0, Math.random() * maxX);
+            const newY = Math.max(0, Math.random() * maxY);
+
+
+            this.style.left = newX + 'px';
+            this.style.top = newY + 'px';
+        });
+
+
+        simBtn.addEventListener('click', function() {
+            mensagemFinalDiv.textContent = "Ótima escolha! ❤️ Feliz Dia dos Namorados, meu amor!";
+            mensagemFinalDiv.style.display = 'block'; 
+
+            document.querySelector('h1').textContent = "Ele disse SIM! 🥰"; 
+            document.querySelector('.botoes').style.display = 'none'; 
+
+            document.querySelector('img').style.transform = 'scale(1.2)'; 
+            document.querySelector('img').style.border = '5px solid #4CAF50'; 
+            document.querySelector('img').style.boxShadow = '5px 5px 15px rgba(76, 175, 80, 0.7)'; 
+
+            document.body.style.backgroundColor = '#ffc0cb'; 
+            container.style.boxShadow = '0 0 25px rgba(76, 175, 80, 0.7)'; 
+        });
+    </script>
+</body>
+</html>
